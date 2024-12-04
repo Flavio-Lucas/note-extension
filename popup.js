@@ -7,4 +7,8 @@ document.getElementById('open-window').addEventListener('click', () => {
     top: 100,
     left: 100
   });
+
+  setTimeout(() => {
+    console.log(chrome);
+  }, 2000);
 });

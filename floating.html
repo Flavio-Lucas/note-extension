@@ -6,27 +6,236 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Janela Flutuante</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
+    * {
       margin: 0;
-      padding: 20px;
-      background-color: #f4f4f9;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    h1 {
-      color: #333;
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #121212;
+      color: #ffffff;
+      display: flex;
+      height: 100vh;
     }
 
-    p {
-      color: #666;
+    .sidebar {
+      width: 300px;
+      max-width: 300px;
+      min-width: 250px;
+      background: #1e1e1e;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid #333;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar header {
+      padding: 10px;
+      min-height: 61px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #252525;
+      border-bottom: 1px solid #333;
+    }
+
+    .sidebar header #new-note {
+      background: #c2c2c2;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      border: none;
+      outline: none;
+    }
+
+    .sidebar ul {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px;
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      background: #2b2b2b;
+      margin-bottom: 10px;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sidebar ul li:hover {
+      background: #444;
+    }
+
+    .sidebar ul li.active {
+      background: #333;
+    }
+
+    .sidebar ul li span {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .sidebar ul li button {
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .note-header {
+      display: flex;
+      align-items: center;
+      background: #1e1e1e;
+      padding: 10px;
+      border-bottom: 1px solid #333;
+    }
+
+    .note-header #save-button {
+      background: #4eff5f;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      border: none;
+      outline: none;
+    }
+
+    .note-header input {
+      width: 100%;
+      font-size: 1.2em;
+      background: transparent;
+      min-height: 40px;
+      color: #fff;
+      border: none;
+      outline: none;
+      padding: 5px 10px;
+    }
+
+    #save-button.hidden {
+      display: none;
+    }
+
+    textarea {
+      flex: 1;
+      width: 100%;
+      background: transparent;
+      color: #fff;
+      border: none;
+      outline: none;
+      padding: 10px;
+      resize: none;
+      font-size: 1em;
+    }
+
+    *::-webkit-scrollbar {
+      width: 5px;
+      /* Largura da barra */
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      /* Cor do thumb (área de rolagem) */
+      border-radius: 4px;
+      /* Bordas arredondadas */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.4);
+      /* Cor ao passar o mouse */
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+      /* Cor da trilha */
+    }
+
+    .container {
+      display: flex;
+      width: 100%;
+    }
+
+    .sidebar {
+      width: 300px;
+      max-width: 300px;
+      min-width: 250px;
+      background: #1e1e1e;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid #333;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .sidebar.closed {
+      width: 0;
+      min-width: 0;
+      max-width: 0;
+      overflow: hidden;
+      border-right: none;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      transition: margin-left 0.3s ease;
+    }
+
+    #toggle-sidebar {
+      width: 40px;
+      background: #c2c2c2;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      outline: none;
+
     }
   </style>
 </head>
 
 <body>
-  <h1>Janela Flutuante</h1>
-  <p>Você pode personalizar este conteúdo como quiser.</p>
+  <div class="container">
+    <nav class="sidebar">
+      <header>
+        <h2>Notes</h2>
+        <button id="new-note" aria-label="Add new note">➕ New Note</button>
+      </header>
+      <ul id="note-list"></ul>
+    </nav>
+
+    <main>
+      <header class="note-header">
+        <button id="toggle-sidebar" aria-label="Toggle sidebar">☰</button>
+        <input id="note-title" placeholder="Untitled Note">
+        <span id="save-button" class="hidden">Salvar</span>
+      </header>
+
+      <textarea id="note-content" placeholder="Write your note here..."></textarea>
+    </main>
+  </div>
+  <script src="script.js"></script>
 </body>
 
 </html>
